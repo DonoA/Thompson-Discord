@@ -1,0 +1,11 @@
+{
+  "db": {
+    "user": "thompson",
+    "password": "AAAAAAAAAAA",
+    "database": "thompson"
+  },
+  "servers": [
+    "33333333333333333333"
+  ],
+  "client_id": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+}
