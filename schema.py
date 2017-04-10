@@ -7,7 +7,6 @@ def setup(cnx):
         "`id` int(11) NOT NULL AUTO_INCREMENT",
         "`discord_id` int(11) NOT NULL", # the api id
         "`rank` int(11) NOT NULL DEFAULT '0'", # 0 = regular, 1 = admin
-        "`chat_mode` int(11) NOT NULL DEFAULT '0'", # 0 = regular, 1 = command (all chat are commands)
         "PRIMARY KEY (`id`)"
     ]
     cursor = cnx.cursor()

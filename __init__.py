@@ -13,9 +13,9 @@ cnx = mysql.connector.connect(**CONFIG['db'], host='127.0.0.1')
 
 schema.setup(cnx)
 
-cmds = Commands(cnx)
-
 client = discord.Client()
+
+cmds = Commands(cnx, client)
 
 @client.event
 async def on_ready():
@@ -26,7 +26,7 @@ async def on_ready():
 async def on_message(message):
     tagged = client.user.id in message.raw_mentions
     if (tagged or message.server.id in CONFIG['servers']) and not message.author.bot:
-        cmds.handle(message.content, tagged)
+        cmds.handle(executor, message, tagged)
 
 
 client.run(CONFIG['client_id'])
