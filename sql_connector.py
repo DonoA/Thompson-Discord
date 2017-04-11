@@ -1,15 +1,19 @@
 import mysql.connector
 from mysql.connector import errorcode
+from config import config
 
-def setup(cnx):
+connection = mysql.connector.connect(**config['db'], host='127.0.0.1')
+
+def setup():
     TABLES = {}
     TABLES['users'] = [
         "`id` int(11) NOT NULL AUTO_INCREMENT",
-        "`discord_id` int(11) NOT NULL", # the api id
+        "`discord_id` varchar(20) NOT NULL", # the api id
+        "`name` varchar(20) NOT NULL", # 0 = regular, 1 = admin
         "`rank` int(11) NOT NULL DEFAULT '0'", # 0 = regular, 1 = admin
         "PRIMARY KEY (`id`)"
     ]
-    cursor = cnx.cursor()
+    cursor = connection.cursor()
     for name, fields in TABLES.items():
         query = "CREATE TABLE `thompson`.`{}` (".format(name)
         for col in fields:

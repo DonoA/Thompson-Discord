@@ -10,6 +10,7 @@ Features:
 - Stream/channel stats fetcher
   - Live view
 - User stalker
+  - Attempt to find other accounts tied to this user on the web
 - Code executor
 - Markov simulator
   - Users
