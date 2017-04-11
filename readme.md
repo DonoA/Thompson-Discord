@@ -11,11 +11,11 @@ Features:
   - Live view
 - User stalker
   - Attempt to find other accounts tied to this user on the web
-- Code executor
+- Code executor (ideone has no free api anymore, building own)
 - Markov simulator
   - Users
   - Reddit
   - YouTube
   - Twitch
-- Self update task
+- Self update task (Completed)
 - Watch field on URL

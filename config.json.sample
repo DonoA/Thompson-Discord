@@ -4,6 +4,11 @@
     "password": "AAAAAAAAAAA",
     "database": "thompson"
   },
+  "ideone": {
+    "username": "AAAAAAAAAAAA",
+    "password": "AAAAAAAAAAAAAAAAAAAAA",
+    "email": "AAAAAAAAAAAAAAAAAAA"
+  },
   "servers": [
     "33333333333333333333"
   ],

@@ -3,6 +3,12 @@ import time, json
 
 cache = {}
 
+ranks=[
+    "Default",
+    "User",
+    "Admin"
+]
+
 class User:
     def find(d_id, name=''):
         if d_id in cache:
@@ -31,23 +37,34 @@ class User:
         if new:
             self.commit()
 
-    def set_rank(self, rank):
-        self.rank = rank
+    def promote(self):
+        self.rank = self.rank + 1
         self._dirty = True
+        self.commit()
+
+    def demote(self):
+        self.rank = self.rank - 1
+        self._dirty = True
+        self.commit()
+
+    def rank_name(self):
+        return ranks[self.rank]
 
     def has_perm(self, cmd):
-        return ('rank' in cmd and cmd['rank'] == self.rank) or 'rank' not in cmd
+        return ('rank' in cmd and cmd['rank'] <= self.rank) or 'rank' not in cmd
 
     def commit(self):
         if self._new:
             cursor = connection.cursor()
             cursor.execute("INSERT INTO `users` (`discord_id`, `name`, `rank`) VALUES (%s, %s, %s);", (self.discord_id, self.name, self.rank))
             connection.commit()
+            self._new = False
             cursor.close()
         elif self._dirty:
             cursor = connection.cursor()
             cursor.execute("UPDATE `users` SET `discord_id`= %s, `name` = %s, `rank` = %s WHERE id = %s;", (self.discord_id, self.name, self.rank, self._id))
             connection.commit()
+            self._dirty = False
             cursor.close()
 
     def purge_cache():

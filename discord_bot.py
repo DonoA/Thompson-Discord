@@ -27,7 +27,7 @@ async def on_message(message):
             cmd = commands.commands[args[0]]
             if sender.has_perm(cmd):
                 if ('args' in cmd and cmd['args'] <= len(args)-1) or 'args' not in cmd:
-                    await cmd['executor'](sender, message, args)
+                    await cmd['executor'](sender, message, args[1:])
                 else:
                     await commands.commands['man']['executor'](sender, message, args)
             else:
