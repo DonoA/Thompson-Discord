@@ -1,6 +1,7 @@
-import discord_bot, json
+import discord_bot, json, os, sys, re
 from user import User
 from util import get_user
+from subprocess import call, check_output
 
 async def stats(executor, message, args):
     if len(args) < 1:
@@ -34,7 +35,19 @@ async def demote(executor, message, args):
         await discord_bot.discord_bot.send_message(message.channel, "Thompson does not currently support username based demotion, please tag instead")
 
 async def update(executor, message, args):
-    discord_bot.discord_bot.send_message(message.channel, "WIP")
+    diff = check_output(["git", "rev-list", "--left-right", "--count", "origin/master...master"])
+    diff = re.findall(r'([0-9]+)[ \t]', diff.decode("utf-8"))[0]
+    if int(diff) > 0:
+        await discord_bot.discord_bot.send_message(message.channel,
+                    "Found {} new updates to install, will now update".format(diff))
+        print("Gitting latest master version")
+        call(["git", "pull", "origin", "master"])
+        await discord_bot.discord_bot.send_message(message.channel, "Updated, shutting down for reboot!")
+    else:
+        await discord_bot.discord_bot.send_message(message.channel, "Shutting down for reboot!")
+    print("Shutting down for reboot!")
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~")
+    os.execl(sys.executable, *([sys.executable]+sys.argv))
 
 async def manual(executor, message, args):
     await discord_bot.discord_bot.send_message(message.channel, commands[args[(1 if args[0] == "man" else 0)]]["man"])

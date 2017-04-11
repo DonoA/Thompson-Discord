@@ -4,7 +4,7 @@ Thompson-Discord
 A discord bot servant.
 
 Features:
-- Basic permission system
+- Basic permission system (Completed)
   - Promotion
   - Demotion
 - Stream/channel stats fetcher
