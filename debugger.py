@@ -13,7 +13,7 @@ class Logger:
         Logger._loggers[lid] = self
 
     def log(self, message):
-        self._messages.append(message)
+        self._messages.append("{} | {}".format(datetime.datetime.fromtimestamp(time.time()),message))
 
     def close(self):
         self._end_time = int(round(time.time() * 1000))

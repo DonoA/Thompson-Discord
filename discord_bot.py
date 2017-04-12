@@ -13,15 +13,15 @@ async def on_ready():
 
 @discord_bot.event
 async def on_message(message):
-    if message.author.id == discord_bot.user.id:
+    if message.author.id == discord_bot.user.id or len(message.content) < 1:
         return
     logger = Logger(message.id)
     called = "thompson" in message.content.lower() or discord_bot.user.id in message.raw_mentions
     commanded = message.content[0] == "$"
-    args = message.content.split(" ")
+    args = message.content.replace("\n", " ").split(" ")
     sender = User.find(message.author.id, name=message.author.name)
     if commanded:
-        logger.log("Commanded: `{}`".format(message.content))
+        logger.log("Commanded: {}".format(message.content))
         logger.log("Commanding user is `{}`".format(json.dumps(sender.hash())))
         args[0] = args[0][1:]
         if args[0] not in commands.commands and commanded:
