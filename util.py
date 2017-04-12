@@ -1,7 +1,7 @@
 import re
 from user import User
 
-def get_user(message, pos, bots=True):
+def get_user(message, pos, logger, bots=True):
     args = message.content.split(" ")
     target = None
     i = 0
@@ -13,6 +13,7 @@ def get_user(message, pos, bots=True):
         elif len(args) <= i:
             return None
 
+    logger.log("Located id tag {} in message".format(target))
 
     member = None
     for m in message.mentions:

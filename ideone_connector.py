@@ -1,5 +1,7 @@
 from config import config
-import requests
+from lxml import etree
+import urllib.request
+
 data = {
     "Submit": "",
     "_lang": 116,
@@ -8,6 +10,6 @@ data = {
     "input": ""
 }
 
-ideone = {}    
+ideone = {}
 
 # r = requests.post("http://ideone.com/ideone/Index/submit/", data=data)

@@ -12,6 +12,7 @@ ranks=[
 class User:
     def find(d_id, name=''):
         if d_id in cache:
+            cache[d_id]._from_cache = True
             return cache[d_id]
         else:
             cursor = connection.cursor()
@@ -34,6 +35,7 @@ class User:
         self.name = name
         self._dirty = False
         self._new = new
+        self._from_cache = False
         if new:
             self.commit()
 

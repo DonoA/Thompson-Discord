@@ -18,4 +18,4 @@ Features:
   - YouTube
   - Twitch
 - Self update task (Completed)
-- Watch field on URL
+- Watch field on URL (Not possible without javascript execution or dom parsing)
