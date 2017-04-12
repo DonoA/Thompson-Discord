@@ -39,15 +39,21 @@ class User:
         if new:
             self.commit()
 
-    def promote(self):
-        self.rank = self.rank + 1
+    def promote(self, new_rank):
+        if len(ranks) <= new_rank:
+            return False
+        self.rank = new_rank
         self._dirty = True
         self.commit()
+        return True
 
-    def demote(self):
-        self.rank = self.rank - 1
+    def demote(self, new_rank):
+        if new_rank < 0:
+            return False
+        self.rank = new_rank
         self._dirty = True
         self.commit()
+        return True
 
     def rank_name(self):
         return ranks[self.rank]
@@ -69,9 +75,6 @@ class User:
             self._dirty = False
             cursor.close()
 
-    def purge_cache():
-        cache = {}
-
     def purge(self):
         cursor = connection.cursor()
         cursor.execute("DELETE FROM `users` WHERE id=%s", (self._id))
@@ -83,3 +86,7 @@ class User:
         for attr in attrs:
             s[attr] = getattr(self,attr)
         return s
+
+def purge_cache():
+    global cache
+    cache = {}

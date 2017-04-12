@@ -20,7 +20,7 @@ async def on_message(message):
     commanded = message.content[0] == "$"
     args = message.content.replace("\n", " ").split(" ")
     sender = User.find(message.author.id, name=message.author.name)
-    if commanded:
+    if commanded and (message.server.id in config['servers'] or sender.rank == 2):
         logger.log("Commanded: {}".format(message.content))
         logger.log("Commanding user is `{}`".format(json.dumps(sender.hash())))
         args[0] = args[0][1:]

@@ -19,16 +19,22 @@ async def stats(executor, message, args, logger):
 async def promote(executor, message, args, logger):
     target = get_user(message, 0, logger)
     if target is not None:
+        new_rank = target.rank + 1
+        if len(args) > 1:
+            new_rank = user.ranks.index(args[1].lower().title())
+        new_rank_name = user.ranks[new_rank]
         logger.log("Target identified as {}".format(json.dumps(target.hash())))
         if target._from_cache:
             logger.log("Target loaded from cache")
         else:
             logger.log("Target selected from database {}".format("(new)" if target._new else ""))
-        if target.rank == 2:
-            await discord_bot.discord_bot.send_message(message.channel, "Already an admin")
+        if target.rank >= new_rank:
+            await discord_bot.discord_bot.send_message(message.channel, "{} not a promotion".format(new_rank_name))
         else:
-            target.promote()
-            await discord_bot.discord_bot.send_message(message.channel, "Promoted to {}".format(target.rank_name()))
+            if target.promote(new_rank):
+                await discord_bot.discord_bot.send_message(message.channel, "Promoted to {}".format(target.rank_name()))
+            else:
+                await discord_bot.discord_bot.send_message(message.channel, "No such rank avalible")
     else:
         await discord_bot.discord_bot.send_message(message.channel, "Thompson does not currently support username based promotion, please tag instead")
     logger.close()
@@ -36,16 +42,22 @@ async def promote(executor, message, args, logger):
 async def demote(executor, message, args, logger):
     target = get_user(message, 0, logger)
     if target is not None:
+        new_rank = target.rank - 1
+        if len(args) > 1:
+            new_rank = user.ranks.index(args[1].lower().title())
+        new_rank_name = user.ranks[new_rank]
         logger.log("Target identified as {}".format(json.dumps(target.hash())))
         if target._from_cache:
             logger.log("Target loaded from cache")
         else:
             logger.log("Target selected from database {}".format("(new)" if target._new else ""))
-        if target.rank == 0:
-            await discord_bot.discord_bot.send_message(message.channel, "Cannot demote below regular")
+        if target.rank <= new_rank:
+            await discord_bot.discord_bot.send_message(message.channel, "{} not a demotion".format(new_rank_name.title()))
         else:
-            target.demote()
-            await discord_bot.discord_bot.send_message(message.channel, "Demoted to {}".format(target.rank_name()))
+            if target.demote(new_rank):
+                await discord_bot.discord_bot.send_message(message.channel, "Demoted to {}".format(target.rank_name()))
+            else:
+                await discord_bot.discord_bot.send_message(message.channel, "No such rank avalible")
     else:
         await discord_bot.discord_bot.send_message(message.channel, "Thompson does not currently support username based demotion, please tag instead")
     logger.close()
@@ -87,7 +99,7 @@ async def purge(executor, message, args, logger):
     elif args[0] == "user":
         if args[1] == "cache":
             logger.log("User cache before purge {}".format(str(user.cache)))
-            User.purge_cache()
+            user.purge_cache()
             logger.log("User cache after purge {}".format(str(user.cache)))
             await discord_bot.discord_bot.send_message(message.channel, "Clearing all users from user model cache!")
         else:

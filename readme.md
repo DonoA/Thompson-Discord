@@ -11,7 +11,7 @@ Features:
   - Live view
 - User stalker
   - Attempt to find other accounts tied to this user on the web
-- Code executor (ideone has no free api anymore, building own)
+- Code executor (Completed)
 - Markov simulator
   - Users
   - Reddit
