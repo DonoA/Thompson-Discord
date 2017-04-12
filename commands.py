@@ -5,7 +5,7 @@ from subprocess import call, check_output, Popen
 from sql_connector import connection
 from config import config
 import threading, user
-from ideone_connector import ideone
+from ideone_connector import Ideone
 from debugger import Logger
 
 async def stats(executor, message, args, logger):
@@ -111,6 +111,8 @@ async def code_exec(executor, message, args, logger):
         code = re.findall(r'`((.|[\n])+)`', message.content)
     code = code[0][0]
     msg = await discord_bot.discord_bot.send_message(message.channel, "Compiling...WIP, not working just yet!")
+    exec_id = Ideone.execute_code(code, args[0])
+    await discord_bot.discord_bot.send_message(message.channel, "Compiled to {}".format(exec_id))
     # while not os.path.isfile("ide_swap/{}.out".format(token)):
     #     if not thr.poll():
     #         await discord_bot.discord_bot.edit_message(msg, "An error was thrown, unable to execute")

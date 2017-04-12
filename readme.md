@@ -19,3 +19,11 @@ Features:
   - Twitch
 - Self update task (Completed)
 - Watch field on URL (Not possible without javascript execution or dom parsing)
+
+Installing is pretty terrible, you will need:
+- firefox (apt)
+- xvfb (apt)
+- splinter (pip3)
+- pyvirtualdisplay (pip3)
+- selenium (pip3)
+- geckodriver (github)
