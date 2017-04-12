@@ -2,15 +2,12 @@ import time, datetime
 
 class Logger:
 
-    _loggers = {}
-
-    _last = None
+    _loggers = []
 
     def __init__(self, lid):
         self.id = lid
         self._messages = []
         self._start_time = int(round(time.time() * 1000))
-        Logger._loggers[lid] = self
 
     def log(self, message):
         self._messages.append("{} | {}".format(datetime.datetime.fromtimestamp(time.time()),message))
@@ -23,10 +20,9 @@ class Logger:
             str(datetime.datetime.fromtimestamp(self._start_time/1000)),
             str(datetime.datetime.fromtimestamp(self._end_time/1000))
         ))
-        Logger._last = self
+        if len(Logger._loggers) > 5:
+            Logger._loggers = Logger._loggers[1:]
+        Logger._loggers.append(self)
 
-    def recall(lid):
-        return Logger._loggers[lid]._messages
-
-    def recall_last():
-        return Logger._last._messages
+    def recall(dist):
+        return Logger._loggers[len(Logger._loggers)-int(dist)]._messages
