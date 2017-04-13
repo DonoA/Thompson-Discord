@@ -1,11 +1,7 @@
 from lxml import etree
 import urllib.request, requests
 from splinter import Browser
-from pyvirtualdisplay import Display
 import time, json
-
-display = Display(visible=0, size=(800, 600))
-display.start()
 
 class Ideone:
     # Executes the given code in the given language and returns the id of the result
