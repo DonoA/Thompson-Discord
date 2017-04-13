@@ -64,6 +64,7 @@ async def demote(executor, message, args, logger):
 
 
 async def update(executor, message, args, logger):
+    call(["git", "fetch", "origin"])
     diff = check_output(["git", "rev-list", "--left-right", "--count", "origin/master...master"])
     diff = re.findall(r'([0-9]+)[ \t]', diff.decode("utf-8"))[0]
     if int(diff) > 0:
