@@ -27,3 +27,4 @@ Installing is pretty terrible, you will need:
 - pyvirtualdisplay (pip3)
 - selenium (pip3)
 - geckodriver (github)
+- lxml (pip3)
